@@ -1,6 +1,8 @@
 package baseball;
 
 import java.util.Scanner;
+import java.util.Arrays;
+import utils.RandomUtils;
 
 public class Application {
     public static void main(String[] args) {
@@ -11,8 +13,8 @@ public class Application {
         while(gameCoin){
             int ball = 0;
             int strike = 0;
-
-
+            String computerChoice = computerChoose();
+            System.out.print(computerChoice);
             gameCoin=checkGameCoin();
         }
     }
@@ -23,6 +25,21 @@ public class Application {
         System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요");
         gameCoin = sc.nextInt();
         return gameCoin==1;
+    }
+
+    private static String computerChoose(){
+        int[] answer = new int[3];
+        String computerChoice;
+        answer[0] = RandomUtils.nextInt(1,9);
+        do{
+            answer[1] = RandomUtils.nextInt(1,9);
+        }while(answer[0]==answer[1]);
+        do{
+            answer[2] = RandomUtils.nextInt(1,9);
+        }while(answer[0]==answer[2] || answer[1]==answer[2]);
+        
+        computerChoice = Arrays.toString(answer);
+        return computerChoice;
     }
 }
 
