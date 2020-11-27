@@ -10,8 +10,8 @@ public class Application {
         // TODO 구현 진행
         boolean gameCoin = true;
         while(gameCoin){
-            String computerChoice = computerChoose();
-            gameStart(computerChoice);
+            String computerChoice = chooseComputerChoice();
+            startGame(computerChoice);
             gameCoin=checkGameCoin();
         }
     }
@@ -21,11 +21,11 @@ public class Application {
         int gameCoin=0;
         System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
         gameCoin = sc.nextInt();
-        ExceptionChecker(gameCoin);
+        exceptionChecker(gameCoin);
         return gameCoin==1;
     }
 
-    private static String computerChoose(){
+    private static String chooseComputerChoice(){
         int[] answer = new int[3];
         String computerChoice;
         answer[0] = RandomUtils.nextInt(1,9);
@@ -40,27 +40,27 @@ public class Application {
         return computerChoice;
     }
 
-    private static void gameStart(String computerChoice){
+    private static void startGame(String computerChoice){
         int strike;
-        String userChoice = userChoose();
-        strike = umpireThePitch(computerChoice, userChoice);
+        String userChoice = chooseUserChoice();
+        strike = umpirePitch(computerChoice, userChoice);
         if(strike==3){
             System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
             return;
         }else{
-            gameStart(computerChoice);
+            startGame(computerChoice);
         }
     }
 
-    private static String userChoose(){
+    private static String chooseUserChoice(){
         Scanner sc = new Scanner(System.in);
         System.out.print("숫자를 입력해주세요 : ");
         String userChoice = sc.nextLine();
-        ExceptionChecker(userChoice);
+        exceptionChecker(userChoice);
             return userChoice;
     }
 
-    private static int umpireThePitch(String computerChoice, String userChoice){
+    private static int umpirePitch(String computerChoice, String userChoice){
         int strike = 0;
         int ball = 0;
         
@@ -71,16 +71,16 @@ public class Application {
         }
 
         for(int i=0; i<userChoice.length(); i++){
-            if(ballCalculate(computerChoice, userChoice.charAt(i))){
+            if(calculateBall(computerChoice, userChoice.charAt(i))){
                 ball+=1;
             }
         }
         ball -= strike;
-        umpireCalls(strike,ball);
+        callUmpire(strike,ball);
         return strike;
     }
 
-    private static boolean ballCalculate(String computerChoice, int pitch){
+    private static boolean calculateBall(String computerChoice, int pitch){
         boolean ball = false;
         for(int i=0; i<computerChoice.length(); i++){
             if(computerChoice.charAt(i)==pitch){
@@ -90,7 +90,7 @@ public class Application {
         return ball;
     }
 
-    private static void umpireCalls(int strike, int ball){
+    private static void callUmpire(int strike, int ball){
         if(strike == 0 && ball == 0){
             System.out.println("낫싱");
         }else if(strike == 0 && ball != 0){
@@ -102,7 +102,7 @@ public class Application {
         }
     }
 
-    private static void ExceptionChecker(String userChoice){
+    private static void exceptionChecker(String userChoice){
         if(userChoice.length() != 3){
             throw new IllegalArgumentException();
         } else if(userChoice.charAt(0)==userChoice.charAt(1) || userChoice.charAt(1)==userChoice.charAt(2) || userChoice.charAt(0)==userChoice.charAt(1)){
@@ -110,11 +110,11 @@ public class Application {
         } else if(userChoice.charAt(0)=='0' ||userChoice.charAt(1)=='0' ||userChoice.charAt(2)=='0'){
             throw new IllegalArgumentException();
         }
-        
+    
     }
 
-    private static void ExceptionChecker(int gameCoin){
-        if(gameCoin !=1 || gameCoin != 2){
+    private static void exceptionChecker(int gameCoin){
+        if(gameCoin !=1 && gameCoin != 2){
             throw new IllegalArgumentException();
         }
     }
