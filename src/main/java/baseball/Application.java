@@ -67,24 +67,25 @@ public class Application {
                 strike+=1;
             }
         }
-        for(int i=0; i< computerChoice.length(); i++){
-            if(userChoice.charAt(0)==computerChoice.charAt(i)){
+
+        for(int i=0; i<userChoice.length(); i++){
+            if(ballCalculate(computerChoice, userChoice.charAt(i))){
                 ball+=1;
             }
         }
-        for(int i=0; i< computerChoice.length(); i++){
-            if(userChoice.charAt(1)==computerChoice.charAt(i)){
-                ball+=1;
-            }
-        }
-        for(int i=0; i< computerChoice.length(); i++){
-            if(userChoice.charAt(2)==computerChoice.charAt(i)){
-                ball+=1;
-            }
-        }
-        ball-=strike;
+        ball -= strike;
         umpireCalls(strike,ball);
         return strike;
+    }
+
+    private static boolean ballCalculate(String computerChoice, int pitch){
+        boolean ball = false;
+        for(int i=0; i<computerChoice.length(); i++){
+            if(computerChoice.charAt(i)==pitch){
+                ball = true;
+            }
+        }
+        return ball;
     }
 
     private static void umpireCalls(int strike, int ball){
